@@ -4,7 +4,7 @@ const express = require('express');
 connectMongo();
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // app.get('/',(req, res)=>{
 //     res.send('ok')
@@ -15,7 +15,7 @@ const port = 3000;
 // app.get('/api/v1/signup',(req, res)=>{
 //     res.send('signup')
 // })
-
+app.use(express.json())
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))
 
