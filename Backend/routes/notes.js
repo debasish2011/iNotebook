@@ -4,7 +4,7 @@ const fetchUser = require("../middleware/fetchUser");
 const Note = require("../models/Note");
 const router = express.Router();
 
-router.get("/fetchallnote", fetchUser, async (req, res) => {
+router.get("/fetchallnotes", fetchUser, async (req, res) => {
   try {
     const note = await Note.find({ user: req.user.id });
     res.send(note);
@@ -46,10 +46,10 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
       newNote.title = title;
     }
     if (description) {
-      newNote.title = description;
+      newNote.description = description;
     }
     if (tag) {
-      newNote.title = tag;
+      newNote.tag = tag;
     }
     let note = await Note.findById(req.params.id);
     if (!note) {
@@ -64,6 +64,23 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
       { new: true }
     );
     res.send(note);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Error!!!");
+  }
+});
+
+router.delete("/deletenote/:id", fetchUser, async (req, res) => {
+  try {
+    let note = await Note.findById(req.params.id);
+    if (!note) {
+      return res.status(404).send("Not Found.");
+    }
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).send("Not Allowed.");
+    }
+    note = await Note.findByIdAndDelete(req.params.id);
+    res.json({ Success: "Note has been deleted.", note: note});
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Error!!!");
