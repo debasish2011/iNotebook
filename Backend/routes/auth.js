@@ -87,11 +87,17 @@ router.post(
   }
 );
 
+router.get("/logout", async (req, res) => {
+  const authToken = " ";
+  res.json({ authToken });
+  res.redirect("/");
+});
+
 router.post("/getuser", fetchUser, async (req, res) => {
   try {
     const userID = req.user.id;
-    const user = await User.findById(userID).select("-password")
-    res.send(user)
+    const user = await User.findById(userID).select("-password");
+    res.send(user);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Error!!!");
