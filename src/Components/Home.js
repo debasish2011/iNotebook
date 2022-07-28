@@ -3,10 +3,11 @@ import Addnote from "./Addnote";
 import Notes from "./Notes";
 
 const Home = () => {
-  return (
+
+    return (
     <>
-      <Addnote/>
-      <Notes/>
+      <Addnote />
+      <Notes />
     </>
   );
 };

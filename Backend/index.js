@@ -1,21 +1,15 @@
 const connectMongo = require('./database');
 const express = require('express');
+const cors = require('cors')
 
 connectMongo();
 
 const app = express();
 const port = 5000;
 
-// app.get('/',(req, res)=>{
-//     res.send('ok')
-// })
-// app.get('/api/v1/login',(req, res)=>{
-//     res.send('login')
-// })
-// app.get('/api/v1/signup',(req, res)=>{
-//     res.send('signup')
-// })
+app.use(cors())
 app.use(express.json())
+
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))
 
