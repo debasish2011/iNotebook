@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import NoteContext from "../context/notes/NoteContext";
 import Noteitem from "./Noteitem";
 const Notes = () => {
   const { notes, getNotes, updateNote } = useContext(NoteContext);
+  let history = useNavigate();
   const [note, setNote] = useState({
     _id: "",
     etitle: "",
@@ -10,7 +12,11 @@ const Notes = () => {
     etag: "",
   });
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      history("/login");
+    }
   });
   const ref = useRef(null);
   const ref2 = useRef(null);
@@ -120,7 +126,9 @@ const Notes = () => {
                 Close
               </button>
               <button
-                disabled={note.etitle.length < 5 || note.edescription.length < 5}
+                disabled={
+                  note.etitle.length < 5 || note.edescription.length < 5
+                }
                 type="button"
                 className="btn btn-primary"
                 onClick={handleClickUpdate}
@@ -134,7 +142,7 @@ const Notes = () => {
       <div className="container my-3">
         <h3>Your Notes</h3>
         <div className="flex">
-          <p>{notes.length===0 && "No Notes to display."}</p>
+          <p>{notes.length === 0 && "No Notes to display."}</p>
           {notes.map((notes) => {
             return (
               <Noteitem
