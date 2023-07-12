@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+require("dotenv").config({ path: "../../.env"});
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let history = useNavigate();
   const handleClickLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    let url = `${process.env.applink}/api/auth/login` || "http://localhost:5000/api/auth/login"
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

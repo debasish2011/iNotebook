@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import NoteContext from "./NoteContext";
+require("dotenv").config({ path: "../../../.env"});
 
 const NoteState = (props) => {
   const [notes, setNotes] = useState([]);
-  const host = "http://localhost:5000";
+  const host = process.env.applink ||"http://localhost:5000";
 
   const getNotes = async () => {
     const response = await fetch(`${host}/api/notes/fetchallnotes`, {

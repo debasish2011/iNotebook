@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+require("dotenv").config({ path: "../../.env"});
+
 const Signup = () => {
   const [credentials, setCredentials] = useState({
     name: "",
@@ -11,7 +13,8 @@ const Signup = () => {
   const handleClickSignup = async (e) => {
     e.preventDefault();
     const { name, email, password } = credentials;
-    const response = await fetch("http://localhost:5000/api/auth/createuser", {
+    let url = `${process.env.applink}/api/auth/createuser` || "http://localhost:5000/api/auth/createuser"
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
